@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+window.AudioContext = window.webkitAudioContext || window.AudioContext;
+var ctx = new AudioContext();
+var osc = null;
+var gain = null;
+function playOscillator() {
+    if(!osc){
+        osc = ctx.createOscillator();
+        gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        gain.gain.value = 1.0;
+        osc.start();
+    }
+    
+    var type = document.getElementById("type").value;
+    var note = parseFloat(document.getElementById("note").value);
+    var freq = 440 * Math.pow(2, (note - 69) / 12);
+
+    osc.type = type;
+    osc.frequency.value = freq;
+
+    document.getElementById("freq").innerText = freq + "[Hz]";
+}
+function stopOscillator() {
+    if(osc){
+        osc.stop();
+        osc = null;
+    }
+}
+</script>
+</head>
+<body>
+<table>
+<tr><td>type</td><td><input id="type" type="text" value="sine"></td></tr>
+<tr><td>note</td><td><input id="note" type="text" value="69"></td></tr>
+<tr><td>freq</td><td><div id="freq"></div></td></tr>
+</table>
+</br>
+<button onclick="playOscillator()">PLAY</button>
+<button onclick="stopOscillator()">STOP</button>
+</br>
+</body>
+</html>
