@@ -6,14 +6,10 @@
 window.AudioContext = window.webkitAudioContext || window.AudioContext;
 var ctx = new AudioContext();
 var osc = null;
-var gain = null;
 function playSound() {
     if(!osc){
         osc = ctx.createOscillator();
-        gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        gain.gain.value = 1.0;
+        osc.connect(ctx.destination);
         osc.type = "sine";
         osc.frequency.value = 391.99543598;
         osc.start();
